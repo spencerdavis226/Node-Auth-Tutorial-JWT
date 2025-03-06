@@ -10,14 +10,10 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // database connection
-const dbURI =
-  'mongodb+srv://shaun:test1234@cluster0.del96.mongodb.net/node-auth';
+const { username, password } = require('./secrets');
+const dbURI = `mongodb+srv://${username}:${password}@nodetuts.4lhc2.mongodb.net/`;
 mongoose
-  .connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
+  .connect(dbURI)
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
 
