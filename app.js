@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.set('view engine', 'ejs');
 
 // database connection
 const { username, password } = require('./secrets');
-const dbURI = `mongodb+srv://${username}:${password}@nodetuts.4lhc2.mongodb.net/`;
+const dbURI = `mongodb+srv://${username}:${password}@nodetuts.4lhc2.mongodb.net/node-auth`;
 mongoose
   .connect(dbURI)
   .then((result) => app.listen(3000))
@@ -20,3 +21,4 @@ mongoose
 // routes
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.use(authRoutes);
