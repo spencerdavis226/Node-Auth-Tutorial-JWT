@@ -1,5 +1,31 @@
 <%- include('partials/header'); -%>
 
-<h1>log in</h1>
+<form>
+  <h2>Log in</h2>
+
+  <label for="email">Email</label>
+  <input type="email" name="email" required />
+  <!-- Teacher is using type="text" to show example of server things -->
+  <div class="email error"></div>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" required />
+  <div class="password error"></div>
+
+  <button>Log in</button>
+</form>
+
+<!-- Grab values from above fields, and send them to the server -->
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Get the values
+    const email = form.email.value; // since input name="email"
+    const password = form.password.value;
+    console.log(email, password);
+  });
+</script>
 
 <%- include('partials/footer'); -%>
