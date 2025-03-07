@@ -69,6 +69,8 @@ const authController = {
     const { email, password } = req.body; // console.log(req.body) shows object with email and password, since that was POST request
     try {
       const user = await User.login(email, password);
+      const token = createToken(user._id); // Look on mongoDB. Each user has an _id
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); // maxAge in .cookie is measured in ms, so *1000 for 3 days
       res.status(200).json({ user: user._id });
     } catch (err) {
       const errors = handleErrors(err);

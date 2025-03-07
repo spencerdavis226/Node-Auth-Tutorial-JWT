@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const { requireAuth } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.set('view engine', 'ejs');
 
 // database connection
 const { username, password } = require('./secrets');
+
 const dbURI = `mongodb+srv://${username}:${password}@nodetuts.4lhc2.mongodb.net/node-auth`;
 mongoose
   .connect(dbURI)
@@ -23,5 +25,5 @@ mongoose
 
 // routes
 app.get('/', (req, res) => res.render('home')); // Express looks for "home" within a "views" folder by default
-app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.use(authRoutes);
