@@ -53,6 +53,8 @@ const authController = {
   login_get: (req, res) => {
     res.render('login');
   },
+
+  // SIGN UP
   signup_post: async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -65,17 +67,25 @@ const authController = {
       res.status(400).json({ errors });
     }
   },
+
+  // LOG IN
   login_post: async (req, res) => {
     const { email, password } = req.body; // console.log(req.body) shows object with email and password, since that was POST request
     try {
       const user = await User.login(email, password);
-      const token = createToken(user._id); // Look on mongoDB. Each user has an _id
-      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }); // maxAge in .cookie is measured in ms, so *1000 for 3 days
+      const token = createToken(user._id);
+      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
       res.status(200).json({ user: user._id });
     } catch (err) {
       const errors = handleErrors(err);
       res.status(400).json({ errors });
     }
+  },
+
+  // LOG OUT
+  logout_get: (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1 }); // Changing the JWT to an empty string, and it expires in 1ms
+    res.redirect('/');
   },
 };
 
