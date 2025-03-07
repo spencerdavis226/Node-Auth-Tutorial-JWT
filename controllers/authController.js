@@ -12,10 +12,17 @@ const handleErrors = (err) => {
   }
 
   // Validation errors
+  // Net Ninja version:
+  // if (err.message.includes('user validation failed')) {
+  //   Object.values(err.errors).forEach(({ properties }) => {
+  //     errors[properties.path] = properties.message;
+  //   });
+  // }
+  // Refactored version:
   if (err.message.includes('user validation failed')) {
-    Object.values(err.errors).forEach(({ properties }) => {
-      errors[properties.path] = properties.message;
-    });
+    for (let field in err.errors) { // Field is "email" and "password"
+      errors[field] = err.errors[field].message;
+    }
   }
 
   return errors;

@@ -6,7 +6,7 @@ const app = express();
 
 // middleware
 app.use(express.static('public'));
-app.use(express.json()); // Takes JSON data that comes with requests, and parses into JS object. Then attaches that object to request body (req.body).
+app.use(express.json()); // Takes JSON data that comes with requests, and parses into a JS object. Then attaches that object to request body (req.body).
 
 // view engine
 app.set('view engine', 'ejs');
@@ -20,6 +20,6 @@ mongoose
   .catch((err) => console.log(err));
 
 // routes
-app.get('/', (req, res) => res.render('home'));
+app.get('/', (req, res) => res.render('home')); // Express looks for "home" within a "views" folder by default
 app.get('/smoothies', (req, res) => res.render('smoothies'));
 app.use(authRoutes);
