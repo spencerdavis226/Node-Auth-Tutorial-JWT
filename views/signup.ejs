@@ -18,8 +18,8 @@
 <!-- Grab values from above fields, and send them to the server -->
 <script>
   const form = document.querySelector('form');
-  const emailError = document.querySelector('.email.error');
-  const passwordError = document.querySelector('.password.error');
+  const emailError = document.querySelector('.email.error'); // Refers to div with class="email error"
+  const passwordError = document.querySelector('.password.error'); // Refers to div with class="password error"
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

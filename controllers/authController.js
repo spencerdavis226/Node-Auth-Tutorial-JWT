@@ -6,7 +6,16 @@ const handleErrors = (err) => {
   console.log(err.message, err.code); // Specific properties from mongoose validation errors
   let errors = { email: '', password: '' };
 
-  // Duplicate error code
+  // Incorrect email
+  if (err.message === 'incorrect email') {
+    // 'incorrect email' error is from User.js static login method
+    errors.email = 'that email is not registered';
+  }
+  // Incorrect password
+  if (err.message === 'incorrect password') {
+    errors.password = 'that password is incorrect';
+  }
+  // Email already registered (11000 is duplicate error code)
   if (err.code === 11000) {
     errors.email = 'that email is already registered';
     return errors;
@@ -58,7 +67,13 @@ const authController = {
   },
   login_post: async (req, res) => {
     const { email, password } = req.body; // console.log(req.body) shows object with email and password, since that was POST request
-    res.send('signup');
+    try {
+      const user = await User.login(email, password);
+      res.status(200).json({ user: user._id });
+    } catch (err) {
+      const errors = handleErrors(err);
+      res.status(400).json({ errors });
+    }
   },
 };
 
