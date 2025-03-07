@@ -12,16 +12,15 @@ const handleErrors = (err) => {
   }
 
   // Validation errors
-  // Net Ninja version:
-  // if (err.message.includes('user validation failed')) {
-  //   Object.values(err.errors).forEach(({ properties }) => {
-  //     errors[properties.path] = properties.message;
-  //   });
-  // }
-  // Refactored version:
   if (err.message.includes('user validation failed')) {
-    for (let field in err.errors) { // Field is "email" and "password"
-      errors[field] = err.errors[field].message;
+    // Example err.errors object from Mongoose:
+    // err.errors = {
+    //   email: { message: "Please enter a valid email" },
+    //   password: { message: "Minimum password length is 6 characters" }
+    // }
+    for (let field in err.errors) {
+      // "field" will be "email" and then "password"
+      errors[field] = err.errors[field].message; // Assigns corresponding message to errors.email and errors.password
     }
   }
 
